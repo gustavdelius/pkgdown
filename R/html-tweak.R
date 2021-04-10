@@ -90,7 +90,7 @@ tweak_all_links <- function(html, pkg = pkg) {
 }
 
 
-tweak_404_links <- function(html, pkg = pkg) {
+tweak_404_links <- function(html, pkg = pkg, what) {
 
   url <- paste0(pkg$meta$url, "/")
 
@@ -124,7 +124,7 @@ tweak_404_links <- function(html, pkg = pkg) {
     )
   }
 
-  return(as.character(xml2::xml_find_first(html, ".//body")))
+  return(as.character(xml2::xml_find_first(html, paste0(".//", what))))
 }
 
 tweak_tables <- function(html) {
