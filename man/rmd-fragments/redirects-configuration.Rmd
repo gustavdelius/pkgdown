@@ -1,9 +1,11 @@
 If you change the structure of your documentation (vignettes for instance) you can setup redirects.
-One or several now-absent pages can be redirected to a new page.
+One or several now-absent pages can be redirected to a new page (or to a new section of a new page.
 
 ```yaml
 redirects:
-  articles/new-vignette-name:
-  - articles/old-vignette-name
-  - articles/another-old-vignette-name
+  articles/new-vignette-name.html:
+  - articles/old-vignette-name.html
+  - articles/another-old-vignette-name.html
+  articles/new-vignette-name.html#section:
+  - articles/yet-another-old-vignette-name.html
 ```

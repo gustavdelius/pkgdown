@@ -4,7 +4,7 @@ test_that("build_redirect() works", {
     meta = list(url = "https://example.com"),
     development = list(in_dev = FALSE)
   )
-  build_redirect("new", c("old", "old2"), pkg = pkg, paths = "new")
+  build_redirect("new.html#section", c("old.html", "old2.html"), pkg = pkg, paths = "new.html")
   expect_snapshot(
     cat(read_lines(file.path(pkg$dst_path, "old.html")))
   )
@@ -14,9 +14,9 @@ test_that("build_redirect() works", {
 
 test_that("build_redirect() errors when wrong paths", {
   expect_snapshot_error(
-    build_redirect("bla", "blop", pkg = list(), paths = "nada")
+    build_redirect("bla.html", "blop.html", pkg = list(), paths = "nada.html")
   )
   expect_snapshot_error(
-    build_redirect("nada", "nada", pkg = list(), paths = "nada")
+    build_redirect("nada.html", "nada.html", pkg = list(), paths = "nada.html")
   )
 })

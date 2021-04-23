@@ -381,10 +381,12 @@ Unlike the navbar or sidebar, the components of the footer are just pasted toget
 \section{YAML config - redirects}{
 
 If you change the structure of your documentation (vignettes for instance) you can setup redirects.
-One or several now-absent pages can be redirected to a new page.\if{html}{\out{<div class="yaml">}}\preformatted{redirects:
-  articles/new-vignette-name:
-  - articles/old-vignette-name
-  - articles/another-old-vignette-name
+One or several now-absent pages can be redirected to a new page (or to a new section of a new page.\if{html}{\out{<div class="yaml">}}\preformatted{redirects:
+  articles/new-vignette-name.html:
+  - articles/old-vignette-name.html
+  - articles/another-old-vignette-name.html
+  articles/new-vignette-name.html#section:
+  - articles/yet-another-old-vignette-name.html
 }\if{html}{\out{</div>}}
 }
 

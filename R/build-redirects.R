@@ -15,8 +15,7 @@ build_redirects <- function(pkg = ".",
   sitemap <- xml2::read_xml(file.path(pkg$dst_path, "sitemap.xml"))
   paths <- xml2::xml_contents(sitemap) %>%
     purrr::map_chr(xml2::xml_text) %>%
-    purrr::map_chr(function(x) httr::parse_url(x)$path) %>%
-    fs::path_ext_remove()
+    get_url_paths()
 
   purrr::walk2(
     names(pkg$meta$redirects),
@@ -29,7 +28,7 @@ build_redirects <- function(pkg = ".",
 
 build_redirect <- function(new, old, pkg, paths) {
   # New page must exist
-  if (!new %in% paths) {
+  if (!get_url_paths(new) %in% paths) {
     abort(
       sprintf(
         "Can't find the page %s from %s.",
@@ -39,7 +38,7 @@ build_redirect <- function(new, old, pkg, paths) {
     )
   }
   # Old pages must not exist
-  if (any(old %in% paths)) {
+  if (any(get_url_paths(old) %in% paths)) {
     abort(
       sprintf(
         "Must redirect an non-existing page:\nPage(s) %s from %s exist(s) in the built site.",
@@ -57,7 +56,7 @@ build_redirect <- function(new, old, pkg, paths) {
       "/"
     )
   }
-  url <- sprintf("%s/%s%s.html", pkg$meta$url, pkg$prefix, new)
+  url <- sprintf("%s/%s%s", pkg$meta$url, pkg$prefix, new)
   lines <- sprintf('
     <html>
       <head>
@@ -71,6 +70,10 @@ build_redirect <- function(new, old, pkg, paths) {
     url, url
   )
 
-  purrr::map(old, function(x) write_lines(lines, file.path(pkg$dst_path, paste0(x, ".html"))))
+  purrr::map(old, function(x) write_lines(lines, file.path(pkg$dst_path, x)))
 
+}
+
+get_url_paths <- function(urls) {
+  purrr::map_chr(urls, function(x) httr::parse_url(x)$path)
 }
