@@ -1,5 +1,7 @@
 # pkgdown (development version)
 
+* pkgdown now supports defining redirects. (#1259, @lorenzwalthert)
+
 * pkgdown websites using BS4 will be more accessible, besides a better color contrast:
     * the heading anchors now have the property aria-hidden which should reduce noise for screenreader users.
     * the aria-labelledby property for navbar dropdowns was fixed.
