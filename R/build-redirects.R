@@ -57,7 +57,7 @@ build_redirect <- function(new, old, pkg, paths) {
       "/"
     )
   }
-  url <- sprintf("%s/%s%s.html/", pkg$meta$url, pkg$prefix, new)
+  url <- sprintf("%s/%s%s.html", pkg$meta$url, pkg$prefix, new)
   lines <- sprintf('
     <html>
       <head>

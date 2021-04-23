@@ -3,7 +3,7 @@
     Code
       cat(read_lines(file.path(pkg$dst_path, "old.html")))
     Output
-           <html>       <head>         <meta http-equiv="refresh" content="0;URL=https://example.com/new.html/" />         <script language="javascript">         window.location.href = "https://example.com/new.html/"         </script>       </head>     </html>   
+           <html>       <head>         <meta http-equiv="refresh" content="0;URL=https://example.com/new.html" />         <script language="javascript">         window.location.href = "https://example.com/new.html"         </script>       </head>     </html>   
 
 # build_redirect() errors when wrong paths
 
