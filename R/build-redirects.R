@@ -6,7 +6,7 @@ build_redirects <- function(pkg = ".",
     return(invisible())
   }
 
-  rule("Building news")
+  rule("Building redirects")
   if (is.null(pkg$meta$url)) {
     abort(sprintf("Can't find %s.", pkgdown_field(pkg, "url")))
   }
