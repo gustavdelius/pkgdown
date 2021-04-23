@@ -31,7 +31,7 @@ build_redirect <- function(new, old, pkg, paths) {
   if (!get_url_paths(new) %in% paths) {
     abort(
       sprintf(
-        "Can't find the page %s from %s.",
+        "Can't find the page %s from %s in the built site.",
         new,
         pkgdown_field(pkg, "redirects")
       )

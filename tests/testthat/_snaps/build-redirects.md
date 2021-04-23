@@ -7,7 +7,7 @@
 
 # build_redirect() errors when wrong paths
 
-    Can't find the page bla.html from redirects.
+    Can't find the page bla.html from redirects in the built site.
 
 ---
 
