@@ -1,8 +1,5 @@
 url: https://pkgdown.r-lib.org
-redirects:
-  articles/pkgdown:
-  - articles/old-vignette-name
-  - articles/another-old-vignette-name
+
 home:
   title: Build websites for R packages
   links:
