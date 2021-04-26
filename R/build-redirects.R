@@ -17,8 +17,7 @@ build_redirects <- function(pkg = ".",
     purrr::map_chr(xml2::xml_text) %>%
     get_url_paths()
 
-  purrr::walk2(
-    names(pkg$meta$redirects),
+  purrr::walk(
     pkg$meta$redirects,
     build_redirect,
     pkg = pkg,
@@ -26,19 +25,12 @@ build_redirects <- function(pkg = ".",
   )
 }
 
-build_redirect <- function(new, old, pkg, paths) {
-  # New page must exist
-  if (!get_url_paths(new) %in% paths) {
-    abort(
-      sprintf(
-        "Can't find the page %s from %s in the built site.",
-        new,
-        pkgdown_field(pkg, "redirects")
-      )
-    )
-  }
-  # Old pages must not exist
-  if (any(get_url_paths(old) %in% paths)) {
+build_redirect <- function(entry, pkg, paths) {
+  new <- entry[2]
+  old <- entry[1]
+
+  # Old page must not exist
+  if (get_url_paths(old) %in% paths) {
     abort(
       sprintf(
         "Must redirect an non-existing page:\nPage(s) %s from %s exist(s) in the built site.",
@@ -57,21 +49,14 @@ build_redirect <- function(new, old, pkg, paths) {
     )
   }
   url <- sprintf("%s/%s%s", pkg$meta$url, pkg$prefix, new)
-  lines <- sprintf('
-    <html>
-      <head>
-        <meta http-equiv="refresh" content="0;URL=%s" />
-        <script language="javascript">
-        window.location.href = "%s"
-        </script>
-      </head>
-    </html>
-  ',
-    url, url
+  path <- find_template(
+    "content", "redirect",
+    template_path = template_path(pkg),
+    bs_version = pkg$bs_version
   )
-
-  purrr::map(old, function(x) write_lines(lines, file.path(pkg$dst_path, x)))
-
+  template <- read_file(path)
+  lines <- whisker::whisker.render(template, list(url = url))
+  write_lines(lines, file.path(pkg$dst_path, old))
 }
 
 get_url_paths <- function(urls) {
