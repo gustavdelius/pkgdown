@@ -40,6 +40,13 @@ build_redirect <- function(entry, pkg, paths) {
     )
   }
 
+  path <- find_template(
+    "content", "redirect",
+    template_path = template_path(pkg),
+    bs_version = pkg$bs_version
+  )
+  template <- read_file(path)
+
   # after the local search PR is merged hopefully the prefix will be in pkg
   pkg$prefix <- ""
   if (pkg$development$in_dev) {
@@ -49,12 +56,6 @@ build_redirect <- function(entry, pkg, paths) {
     )
   }
   url <- sprintf("%s/%s%s", pkg$meta$url, pkg$prefix, new)
-  path <- find_template(
-    "content", "redirect",
-    template_path = template_path(pkg),
-    bs_version = pkg$bs_version
-  )
-  template <- read_file(path)
   lines <- whisker::whisker.render(template, list(url = url))
   write_lines(lines, file.path(pkg$dst_path, old))
 }
