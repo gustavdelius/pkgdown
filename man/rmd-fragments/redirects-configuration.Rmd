@@ -1,4 +1,4 @@
-If you change the structure of your documentation (vignettes for instance) you can setup redirects.
+If you change the structure of your documentation (by renaming vignettes or help topics) you can setup redirects from the old content to the new content.
 One or several now-absent pages can be redirected to a new page (or to a new section of a new page.
 
 ```yaml
