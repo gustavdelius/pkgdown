@@ -140,7 +140,7 @@ navbar_articles <- function(pkg = ".") {
       if (length(navbar) != length(articles)) {
         children <- c(children, list(menu_spacer(), menu_link("More articles...", "articles/index.html")))
       }
-      menu$articles <- menu("Articles", children)
+      menu$articles <- menu("Tutorials", children)
     }
   }
   print_yaml(menu)
