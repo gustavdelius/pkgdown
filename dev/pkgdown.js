@@ -6,16 +6,18 @@
 
     Toc.init({
       $nav: $("#toc"),
-      $scope: $("h2, h3, h4, h5, h6")
+      $scope: $("main h2, main h3, main h4, main h5, main h6")
     });
 
-    $('body').scrollspy({
-      target: '#pkgdown-sidebar',
-      offset: 60
-    });
+    if ($('#toc').length) {
+      $('body').scrollspy({
+        target: '#toc',
+        offset: $("nav.navbar").outerHeight() + 1
+      });
+    }
 
     // Activate popovers
-    $('[data-toggle="popover"]').popover({
+    $('[data-bs-toggle="popover"]').popover({
       container: 'body',
       html: true,
       trigger: 'focus',
@@ -23,22 +25,22 @@
       sanitize: false,
     });
 
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-bs-toggle="tooltip"]').tooltip();
 
   /* Clipboard --------------------------*/
 
   function changeTooltipMessage(element, msg) {
-    var tooltipOriginalTitle=element.getAttribute('data-original-title');
-    element.setAttribute('data-original-title', msg);
+    var tooltipOriginalTitle=element.getAttribute('data-bs-original-title');
+    element.setAttribute('data-bs-original-title', msg);
     $(element).tooltip('show');
-    element.setAttribute('data-original-title', tooltipOriginalTitle);
+    element.setAttribute('data-bs-original-title', tooltipOriginalTitle);
   }
 
   if(ClipboardJS.isSupported()) {
     $(document).ready(function() {
       var copyButton = "<button type='button' class='btn btn-primary btn-copy-ex' title='Copy to clipboard' aria-label='Copy to clipboard' data-toggle='tooltip' data-placement='left' data-trigger='hover' data-clipboard-copy><i class='fa fa-copy'></i></button>";
 
-      $(".examples, div.sourceCode").addClass("hasCopyButton");
+      $("div.sourceCode").addClass("hasCopyButton");
 
       // Insert copy buttons:
       $(copyButton).prependTo(".hasCopyButton");
@@ -49,7 +51,7 @@
       // Initialize clipboard:
       var clipboard = new ClipboardJS('[data-clipboard-copy]', {
         text: function(trigger) {
-          return trigger.parentNode.textContent;
+          return trigger.parentNode.textContent.replace(/\n#>[^\n]*/g, "");
         }
       });
 
@@ -58,7 +60,7 @@
         e.clearSelection();
       });
 
-      clipboard.on('error', function() {
+      clipboard.on('error', function(e) {
         changeTooltipMessage(e.trigger,'Press Ctrl+C or Command+C to copy');
       });
 
@@ -68,7 +70,7 @@
     /* Search marking --------------------------*/
     var url = new URL(window.location.href);
     var toMark = url.searchParams.get("q");
-    var mark = new Mark("div.col-md-9");
+    var mark = new Mark("main#main");
     if (toMark) {
       mark.mark(toMark, {
         accuracy: {
@@ -151,4 +153,10 @@ async function searchFuse(query, callback) {
   });
 })(window.jQuery || window.$)
 
-
+document.addEventListener('keydown', function(event) {
+  // Check if the pressed key is '/'
+  if (event.key === '/') {
+    event.preventDefault();  // Prevent any default action associated with the '/' key
+    document.getElementById('search-input').focus();  // Set focus to the search input
+  }
+});
